@@ -18,39 +18,43 @@ class _HomeState extends State<Home> {
         title: const Text('App with firebase'),
       ),
       body: FutureBuilder(
-        future: getUsuarios(), 
-        builder: ((context, snapshot){
-          if(snapshot.hasData == false){
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }else{
-return ListView.builder(
-            itemCount: snapshot.data?.length,
-            itemBuilder: ((context, index){
-              return ListTile(
-                title: Text(snapshot.data?[index]['nombre']),
-                subtitle: Text(snapshot.data?[index]['nocuenta']),
-                leading: CircleAvatar(
-                  child: Text(snapshot.data?[index]['nombre'].substring(0, 1)),
-                ),
+          future: getUsuarios(),
+          builder: ((context, snapshot) {
+            if (snapshot.hasData == false) {
+              return const Center(
+                child: CircularProgressIndicator(),
               );
-            })
-          );
-          }
-        })
-      ),
-
+            } else {
+              return ListView.builder(
+                  itemCount: snapshot.data?.length,
+                  itemBuilder: ((context, index) {
+                    return ListTile(
+                      onTap: () async {
+                        await Navigator.pushNamed(context, '/edit', arguments: {
+                          'uid': snapshot.data?[index]['uid'],
+                          'nombre': snapshot.data?[index]['nombre'],
+                          'eMail': snapshot.data?[index]['email'],
+                          'nCuenta': snapshot.data?[index]['nocuenta'],
+                        });
+                        setState(() {});
+                      },
+                      title: Text(snapshot.data?[index]['nombre']),
+                      subtitle: Text(snapshot.data?[index]['nocuenta']),
+                      leading: CircleAvatar(
+                        child: Text(
+                            snapshot.data?[index]['nombre'].substring(0, 1)),
+                      ),
+                    );
+                  }));
+            }
+          })),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           await Navigator.pushNamed(context, '/add');
-          setState(() {
-            
-          });
+          setState(() {});
         },
         child: const Icon(Icons.add),
       ),
-
     );
   }
 }

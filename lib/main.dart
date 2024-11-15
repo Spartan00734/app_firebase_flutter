@@ -1,5 +1,6 @@
 //import 'package:app_firebase5b/services/firebase_services.dart';
 import 'package:app_firebase5b/pages/add_usuario_page.dart';
+import 'package:app_firebase5b/pages/edit_usuario_page.dart';
 import 'package:app_firebase5b/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const Home(),
         '/add': (context) => const AddUsuario(),
+        '/edit' : (context) => const EditUsuario(),
         },
     );
   }

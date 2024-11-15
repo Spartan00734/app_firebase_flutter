@@ -13,7 +13,15 @@ Future<List> getUsuarios () async {
   QuerySnapshot queryUsuarios = await collectionReferenceUsuarios.get();
 
   queryUsuarios.docs.forEach((documento) {
-    usuarios.add(documento.data());
+
+    final Map<String, dynamic> data = documento.data() as Map<String, dynamic>;
+    final person ={
+      "uid": documento.id,
+      "nombre": data['nombre'],
+      "email": data['email'],
+      "nocuenta": data['nocuenta'],
+    };
+    usuarios.add(person);
   });
 
   return usuarios;
@@ -28,4 +36,14 @@ Future<void> agregarUsuario(String nNombre, String nEmail, String nCuenta) async
     'nocuenta': nCuenta,
   });
 }
+
+//Este future agrega para editar usuario
+Future<void> editUsuario(String uid, String eNombre, String eMail, String eCuenta) async {
+  await db.collection('usuarios').doc(uid).set({
+    "nombre": eNombre, 
+    "email": eMail, 
+    "nocuenta": eCuenta
+    });
+}
+
 
